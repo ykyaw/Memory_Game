@@ -83,7 +83,7 @@ public final class HttpUtil {
         ImageLoader imageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
             @Override
             public Bitmap getBitmap(String s) {
-                final int maxSize = 10 * 1024 * 1024;//10M大小的缓存
+                final int maxSize = 10 * 1024 * 1024;
                 mCache = new LruCache<String, Bitmap>(maxSize) {
                     @Override
                     protected int sizeOf(String key, Bitmap bitmap) {

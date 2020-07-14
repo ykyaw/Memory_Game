@@ -53,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:id="@+id/score"
                 android:layout_marginStart="20dp"
                 android:text="@string/score"/>
 
@@ -69,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:id="@+id/credits"
                 android:layout_marginEnd="20dp"
                 android:text="@string/credits"/>
 
