@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import iss.team1.ca.memorygame.R;
-import iss.team1.ca.memorygame.comm.utils.CommonConstant;
+import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
