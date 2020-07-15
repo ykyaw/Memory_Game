@@ -14,8 +14,7 @@ import java.util.ArrayList;
 public abstract class MyAdapter<T> extends BaseAdapter {
 
     private ArrayList<T> mData;
-    private int mLayoutRes;
-
+    private int mLayoutRes;           //layout id
 
     public MyAdapter() {
     }
@@ -59,7 +58,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    //add an element in particular position
+    //add an element at a particular position
     public void add(int position, T data) {
         if (mData == null) {
             mData = new ArrayList<>();
@@ -89,15 +88,14 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-
     public static class ViewHolder {
 
-        private SparseArray<View> mViews;   //store the view of item in ListView
+        private SparseArray<View> mViews;   //store the view of ListView's item
         private View item;                  //store convertView
         private int position;
         private Context context;
 
-        //initialization
+
         private ViewHolder(Context context, ViewGroup parent, int layoutRes) {
             mViews = new SparseArray<>();
             this.context = context;
@@ -130,9 +128,8 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             return t;
         }
 
-
         /**
-         * get current item
+         * get current item view
          */
         public View getItemView() {
             return item;
@@ -146,9 +143,15 @@ public abstract class MyAdapter<T> extends BaseAdapter {
         }
 
 
-        /**
-         * set image
-         */
+        public ViewHolder setText(int id, CharSequence text) {
+            View view = getView(id);
+            if (view instanceof TextView) {
+                ((TextView) view).setText(text);
+            }
+            return this;
+        }
+
+
         public ViewHolder setImageResource(int id, int drawableRes) {
             View view = getView(id);
             if (view instanceof ImageView) {
@@ -159,7 +162,6 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             return this;
         }
 
-
         /**
          * set click listener
          */
@@ -168,21 +170,19 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             return this;
         }
 
-        /**
-         * set visible
-         */
+
         public ViewHolder setVisibility(int id, int visible) {
             getView(id).setVisibility(visible);
             return this;
         }
 
-        /**
-         * set tag
-         */
+
         public ViewHolder setTag(int id, Object obj) {
             getView(id).setTag(obj);
             return this;
         }
+
+
 
     }
 

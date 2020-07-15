@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        score.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context,HighScoreActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 //    @Override
