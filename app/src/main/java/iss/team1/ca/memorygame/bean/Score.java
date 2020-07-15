@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Score implements Serializable {
 
     private int uid;
-    private User user;
+    private User owner;
     private Long time;
-    private Long score;
+    private int score;
 
     public Score() {
     }
@@ -16,9 +16,9 @@ public class Score implements Serializable {
         this.uid = uid;
     }
 
-    public Score(int uid, User user, Long time, Long score) {
+    public Score(int uid, User owner, Long time, int score) {
         this.uid = uid;
-        this.user = user;
+        this.owner = owner;
         this.time = time;
         this.score = score;
     }
@@ -31,12 +31,12 @@ public class Score implements Serializable {
         this.uid = uid;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public Long getTime() {
@@ -47,11 +47,11 @@ public class Score implements Serializable {
         this.time = time;
     }
 
-    public Long getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(Long score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -59,7 +59,7 @@ public class Score implements Serializable {
     public String toString() {
         return "Score{" +
                 "uid=" + uid +
-                ", user=" + user +
+                ", owner=" + owner +
                 ", time=" + time +
                 ", score=" + score +
                 '}';
