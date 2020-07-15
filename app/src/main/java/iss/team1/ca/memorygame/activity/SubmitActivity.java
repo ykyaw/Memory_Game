@@ -2,10 +2,14 @@ package iss.team1.ca.memorygame.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,21 +26,28 @@ import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 
-public class SubmitActivity extends AppCompatActivity {
+public class SubmitActivity extends AppCompatActivity implements ServiceConnection {
 
     Button submit;
     TextView player_name;
     TextView game_result;
     int score;
     String userId;
+    MusicPlayerService musicPlayerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
+        getSupportActionBar().hide(); //hide the title bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
 
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 10000);
+
+        //Binding to music service to allow music change. Refer to onServiceConnected method
+        Intent musicIntent = new Intent(this, MusicPlayerService.class);
+        bindService(musicIntent, this, BIND_AUTO_CREATE);
 
         init();
     }
@@ -79,5 +90,28 @@ public class SubmitActivity extends AppCompatActivity {
     private void startMainActivity(){
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(musicPlayerService!=null){
+            musicPlayerService.unpauseMusic();
+        }
+    }
+
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicPlayerService.MyBinder binder = (MusicPlayerService.MyBinder) iBinder;
+        if(binder != null) {
+            musicPlayerService = binder.getService();
+            musicPlayerService.playVictoryMusic();
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
     }
 }

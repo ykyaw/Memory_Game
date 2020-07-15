@@ -2,19 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="iss.team1.ca.memorygame">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".comm.utils.ApplicationUtil"
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activity.HighScoreActivity" />
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <service
+            android:name=".activity.MusicPlayerService"
+            android:enabled="true"
+            android:exported="true"></service>
 
+        <activity android:name=".activity.HighScoreActivity" />
         <activity android:name=".activity.SubmitActivity" />
         <activity android:name=".activity.PlayingActivity" />
         <activity android:name=".activity.CreditActivity" />
@@ -26,10 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".service.TestService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
     </application>
 
 </manifest>

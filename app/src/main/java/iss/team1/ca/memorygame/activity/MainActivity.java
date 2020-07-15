@@ -3,12 +3,16 @@ package iss.team1.ca.memorygame.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +32,7 @@ import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.comm.utils.JSONUtil;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements ServiceConnection {
 
     Button play;
     Button credits;
@@ -36,17 +40,22 @@ public class MainActivity extends AppCompatActivity  {
     Button name;
     boolean hasAccount=false;
 
+    MusicPlayerService musicPlayerService;
+
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
+        getSupportActionBar().hide(); //hide the title bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context=MainActivity.this;
 
+        //Binding to music service to allow music change. Refer to onServiceConnected method
+        Intent musicIntent = new Intent(this, MusicPlayerService.class);
+        bindService(musicIntent, this, BIND_AUTO_CREATE);
         init();
-
-
     }
 
     private void init(){
@@ -150,5 +159,35 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if(musicPlayerService!=null){
+            musicPlayerService.pauseMusic();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(musicPlayerService!=null){
+            musicPlayerService.unpauseMusic();
+        }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicPlayerService.MyBinder binder = (MusicPlayerService.MyBinder) iBinder;
+        if(binder != null) {
+            musicPlayerService = binder.getService();
+            musicPlayerService.playMusic(1);
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
+    }
 
 }
