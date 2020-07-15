@@ -5,7 +5,7 @@ import android.Manifest;
 public class CommonConstant {
 
     public static class HttpUrl {
-        private static final String root="http://192.168.1.228:8080/";
+        private static final String root="http://140.238.17.72:8080/";
         public static final String HIGH_SCORES = root+"scores";
         public static final String CREATE_ACCOUNT=root+"user";
         public static final String SUBMIT_SCORE = root+"score";
