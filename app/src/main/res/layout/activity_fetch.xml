@@ -1,20 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.FetchActivity">
 
+    <EditText
+        android:id="@+id/inputUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Input a URL"
+        android:layout_alignBottom="@id/fetchBtn"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/fetchBtn" />
+
+    <Button
+        android:id="@+id/fetchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fetch"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@id/grid_img" />
 
     <GridView
         android:id="@+id/grid_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="3"
-        android:verticalSpacing="10dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:verticalSpacing="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/fetchBtn" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/grid_img"/>
+
+    <TextView
+        android:id="@+id/progressTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Fetch a URL to begin"
+        android:textSize="20sp"
+        android:layout_below="@id/progressBar"/>
+</RelativeLayout>
