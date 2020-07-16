@@ -11,4 +11,6 @@
     <string name="play_name">"player name: "</string>
     <string name="player_name_title">"player name: "</string>
     <string name="submit">submit</string>
+    <string name="score_title_name">name</string>
+    <string name="score_title_score">score</string>
 </resources>

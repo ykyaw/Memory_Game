@@ -17,14 +17,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
+import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class SubmitActivity extends AppCompatActivity implements ServiceConnection {
 

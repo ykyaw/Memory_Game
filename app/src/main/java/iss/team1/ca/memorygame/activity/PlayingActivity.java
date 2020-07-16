@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.view.Window;
 
 import iss.team1.ca.memorygame.R;
+import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class PlayingActivity extends AppCompatActivity implements ServiceConnection {
 
