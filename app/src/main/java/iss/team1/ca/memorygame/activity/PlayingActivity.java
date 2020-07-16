@@ -26,7 +26,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         Intent musicIntent = new Intent(this, MusicPlayerService.class);
         bindService(musicIntent, this, BIND_AUTO_CREATE);
     }
-
+// hello
     @Override
     public void onPause(){
         super.onPause();
