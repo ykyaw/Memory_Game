@@ -7,14 +7,31 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.view.Window;
+import android.widget.Chronometer;
+import android.widget.GridView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import iss.team1.ca.memorygame.R;
+
 import iss.team1.ca.memorygame.service.MusicPlayerService;
+
 
 public class PlayingActivity extends AppCompatActivity implements ServiceConnection {
 
+    //Chronometer
+    private Chronometer chronometer;
+    private boolean isChronometerRunning;
+    private long pauseOffset;
+
+    //Music Player
     MusicPlayerService musicPlayerService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
@@ -25,13 +42,32 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         //Binding to music service to allow music change. Refer to onServiceConnected method
         Intent musicIntent = new Intent(this, MusicPlayerService.class);
         bindService(musicIntent, this, BIND_AUTO_CREATE);
+
+        //Assign chronometer
+        chronometer = findViewById(R.id.chronometer);
+        if(!isChronometerRunning){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    chronometer.start();
+                }
+            }).start();
+            isChronometerRunning = true;
+        }
+
     }
-// hello
+
+
     @Override
     public void onPause(){
         super.onPause();
         if(musicPlayerService!=null){
             musicPlayerService.pauseMusic();
+        }
+        if(isChronometerRunning){
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime()-chronometer.getBase();
+            isChronometerRunning = false;
         }
     }
 
@@ -40,6 +76,11 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         super.onResume();
         if(musicPlayerService!=null){
             musicPlayerService.unpauseMusic();
+        }
+        if(!isChronometerRunning){
+            chronometer.setBase(SystemClock.elapsedRealtime()-pauseOffset);
+            chronometer.start();
+            isChronometerRunning = true;
         }
     }
 
