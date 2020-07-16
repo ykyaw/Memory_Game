@@ -1,4 +1,4 @@
-package iss.team1.ca.memorygame.activity;
+package iss.team1.ca.memorygame.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -36,7 +36,7 @@ public class MusicPlayerService extends Service {
     }
 
     public class MyBinder extends Binder {
-        MusicPlayerService getService(){
+        public MusicPlayerService getService(){
             return MusicPlayerService.this;
         }
     }

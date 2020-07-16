@@ -9,16 +9,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Window;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.MyAdapter;
-import iss.team1.ca.memorygame.comm.CommonConstant;
-import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.modal.Img;
+import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class FetchActivity extends AppCompatActivity implements ServiceConnection {
 
@@ -50,7 +48,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         grid_img=(GridView)findViewById(R.id.grid_img);
 
         imgList=new ArrayList<>();
-        for(int i=0;i<20;i++){
+        for(int i=0;i<2;i++){
             imgList.add(new Img(R.drawable.ic_launcher_background));
         }
 
@@ -58,6 +56,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
             @Override
             public void bindView(ViewHolder holder, Img img) {
                 holder.setImageResource(R.id.img,img.getUid());
+
             }
         };
 

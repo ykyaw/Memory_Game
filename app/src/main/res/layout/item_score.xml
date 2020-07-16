@@ -3,23 +3,44 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:padding="10dp"
+    android:gravity="center_vertical"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/high_score_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#F3684A"
-        android:textSize="18sp" />
+        android:id="@+id/high_score_rank"
+        android:textColor="@color/black"
+        android:text="4"
+        android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/high_score"
-        android:layout_width="wrap_content"
+        android:id="@+id/high_score_username"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text=""
-        android:textColor="#44BDED"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"
         android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/hexagon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="56s"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:id="@+id/high_score"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

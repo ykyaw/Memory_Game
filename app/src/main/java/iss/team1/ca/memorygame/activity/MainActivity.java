@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +30,7 @@ import iss.team1.ca.memorygame.bean.User;
 import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.comm.utils.JSONUtil;
+import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class MainActivity extends AppCompatActivity implements ServiceConnection {
 

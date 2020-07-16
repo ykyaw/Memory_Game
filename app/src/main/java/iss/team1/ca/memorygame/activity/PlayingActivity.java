@@ -18,8 +18,9 @@ import java.util.Date;
 import java.util.List;
 
 import iss.team1.ca.memorygame.R;
-import iss.team1.ca.memorygame.adapter.MyAdapter;
-import iss.team1.ca.memorygame.modal.Img;
+
+import iss.team1.ca.memorygame.service.MusicPlayerService;
+
 
 public class PlayingActivity extends AppCompatActivity implements ServiceConnection {
 

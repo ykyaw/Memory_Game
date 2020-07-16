@@ -5,15 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.reflect.TypeToken;
@@ -24,20 +21,22 @@ import java.util.List;
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.MyAdapter;
 import iss.team1.ca.memorygame.bean.Score;
-import iss.team1.ca.memorygame.bean.User;
 import iss.team1.ca.memorygame.comm.CommonConstant;
-import iss.team1.ca.memorygame.comm.utils.ApplicationUtil;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.comm.utils.JSONUtil;
+import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class HighScoreActivity extends AppCompatActivity implements ServiceConnection {
 
     private ListView highScoreList;
-    MusicPlayerService musicPlayerService;
+    private TextView name_top1,name_top2,name_top3;
+    private TextView score_top1,score_top2,score_top3;
 
     private MyAdapter highScoreAdapter=null;
 
     private List<Score> scoreList=null;
+
+    MusicPlayerService musicPlayerService;
 
 
     @Override
@@ -55,6 +54,12 @@ public class HighScoreActivity extends AppCompatActivity implements ServiceConne
 
     private void init(){
         highScoreList=(ListView)findViewById(R.id.high_score_list);
+        name_top1=(TextView)findViewById(R.id.name_top1);
+        name_top2=(TextView)findViewById(R.id.name_top2);
+        name_top3=(TextView)findViewById(R.id.name_top3);
+        score_top1=(TextView)findViewById(R.id.score_top1);
+        score_top2=(TextView)findViewById(R.id.score_top2);
+        score_top3=(TextView)findViewById(R.id.score_top3);
 
         //data initial
         HttpUtil.getInstance()
@@ -64,12 +69,26 @@ public class HighScoreActivity extends AppCompatActivity implements ServiceConne
                         if(response!=null) {
                             scoreList= (List<Score>) JSONUtil.JsonToObject(response, new TypeToken<List<Score>>() {}.getType());
 
+                            name_top1.setText(scoreList.get(0).getOwner().getUsername());
+                            score_top1.setText(scoreList.get(0).getScore()+"s");
+                            name_top2.setText(scoreList.get(1).getOwner().getUsername());
+                            score_top2.setText(scoreList.get(1).getScore()+"s");
+                            name_top3.setText(scoreList.get(2).getOwner().getUsername());
+                            score_top3.setText(scoreList.get(2).getScore()+"s");
+
+                            List<Score> restScores=new ArrayList<>();
+                            for(int i=3;i<scoreList.size();i++){
+                                restScores.add(scoreList.get(i));
+                            }
+
                             //adapter initial
-                            highScoreAdapter=new MyAdapter<Score>((ArrayList) scoreList,R.layout.item_score) {
+                            highScoreAdapter=new MyAdapter<Score>((ArrayList) restScores,R.layout.item_score) {
                                 @Override
                                 public void bindView(ViewHolder holder, Score score) {
                                     holder.setText(R.id.high_score_username,score.getOwner().getUsername());
                                     holder.setText(R.id.high_score,score.getScore()+"s");
+                                    holder.setText(R.id.high_score_rank,holder.getItemPosition()+4+"");
+
                                 }
                             };
 
