@@ -36,10 +36,13 @@ public class SubmitActivity extends AppCompatActivity implements ServiceConnecti
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide(); //hide the title bar
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+
 
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 10000);
