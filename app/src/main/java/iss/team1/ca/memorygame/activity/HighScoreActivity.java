@@ -69,12 +69,16 @@ public class HighScoreActivity extends AppCompatActivity implements ServiceConne
                         if(response!=null) {
                             scoreList= (List<Score>) JSONUtil.JsonToObject(response, new TypeToken<List<Score>>() {}.getType());
 
-                            name_top1.setText(scoreList.get(0).getOwner().getUsername());
-                            score_top1.setText(scoreList.get(0).getScore()+"s");
-                            name_top2.setText(scoreList.get(1).getOwner().getUsername());
-                            score_top2.setText(scoreList.get(1).getScore()+"s");
-                            name_top3.setText(scoreList.get(2).getOwner().getUsername());
-                            score_top3.setText(scoreList.get(2).getScore()+"s");
+                            try{
+                                name_top1.setText(scoreList.get(0).getOwner().getUsername());
+                                score_top1.setText(scoreList.get(0).getScore()+"s");
+                                name_top2.setText(scoreList.get(1).getOwner().getUsername());
+                                score_top2.setText(scoreList.get(1).getScore()+"s");
+                                name_top3.setText(scoreList.get(2).getOwner().getUsername());
+                                score_top3.setText(scoreList.get(2).getScore()+"s");
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
 
                             List<Score> restScores=new ArrayList<>();
                             for(int i=3;i<scoreList.size();i++){
