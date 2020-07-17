@@ -94,7 +94,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                    runOnUiThread(new Runnable() {
                                        @Override
                                        public void run() {
-                                           Toast.makeText(getApplicationContext(), "Not enough images to load from this URL", Toast.LENGTH_LONG).show();
+                                           Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
                                        }
                                    });
                                 }
@@ -102,7 +102,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Not enough images to load from this URL", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
