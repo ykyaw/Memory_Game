@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     Button play;
     Button credits;
     Button score;
-    Button name;
+    TextView name;
 
     MusicPlayerService musicPlayerService;
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         play=(Button) findViewById(R.id.play);
         credits=(Button) findViewById(R.id.credits);
         score=(Button) findViewById(R.id.score);
-        name=(Button)findViewById(R.id.name);
+        name=(TextView) findViewById(R.id.name);
 
 
         play.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     private boolean checkAccount(){
         SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
         if(pref.contains("username")&&pref.contains("uid")){
-            name.setText(pref.getString("username",""));
+            name.setText("Welcome, "+pref.getString("username","")+" ^_^");
             return true;
         }
         return false;
