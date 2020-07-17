@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     Button credits;
     Button score;
     Button name;
-    boolean hasAccount=false;
 
     MusicPlayerService musicPlayerService;
 
@@ -64,12 +63,11 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         score=(Button) findViewById(R.id.score);
         name=(Button)findViewById(R.id.name);
 
-        hasAccount=checkAccount();
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hasAccount){
+                if(checkAccount()){
                     startPlayActivity();
                 }else{
                     customEditTextDialog(view);

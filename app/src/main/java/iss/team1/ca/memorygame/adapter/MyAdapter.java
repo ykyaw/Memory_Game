@@ -157,7 +157,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             View view = getView(id);
             if (view instanceof ImageView) {
                 ((ImageView) view).setImageBitmap(res);
-            } 
+            }
             return this;
         }
 
