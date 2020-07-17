@@ -33,6 +33,8 @@ import iss.team1.ca.memorygame.adapter.PlayAdapter;
 import iss.team1.ca.memorygame.modal.Img;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
+import static java.lang.Integer.parseInt;
+
 
 public class PlayingActivity extends AppCompatActivity implements ServiceConnection {
 
@@ -46,12 +48,12 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
     private int matches = 0;
     private ArrayList<Img> images;
     private Bitmap[] drawable;
-    //private ArrayList<Integer> pos;
     private int[] pos= new int[]{0,1,2,3,4,5,0,1,2,3,4,5};
     private int currentPos = -1;
     //Music Player
     MusicPlayerService musicPlayerService;
     private EmojiRainLayout mContainer;
+    private boolean secondcardopen = false;
 
 
     @Override
@@ -76,17 +78,13 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
             }).start();
             isChronometerRunning = true;
         }
-
-
         shuffleArray(pos);
         //Assign Match Counter
         updateMatchCount(matches);
         init();
     }
-
     //Initializing the game
     private void init(){
-
         retrieveImages(); //retrieve bitmap images from previous activity
         drawable = new Bitmap[]{ //assigns bitmap images to a bitmap array
                 images.get(0).getRes(),
@@ -108,49 +106,48 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id) {
+
+                if(secondcardopen == true){
+                    return;
+                }
                 if(currentPos <0){
                     currentPos = position;
                     currentView = (ImageView) view;
                     ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                 }
                 else{
-                    if (pos[currentPos] != pos[position]){
+                    secondcardopen = true;
+                    if(currentPos == position){
+                        currentPos=-1;
+                        ((ImageView)view).setImageResource(R.drawable.turtlecard);
+                        secondcardopen = false;
+                    }
+                    else if (pos[currentPos] != pos[position]){
+                        currentPos=-1;
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 currentView.setImageResource(R.drawable.turtlecard);
                                 ((ImageView)view).setImageResource(R.drawable.turtlecard);
-                                //Possible toast for not matching
-                                StyleableToast.makeText(getApplicationContext(),"Try again!",R.style.tryagainToast).show();
+                                secondcardopen = false;
                             }
-                        }, 500);
+                        }, 300);
+                        triggernoMatchToast();
                     }
                     else{
-                        ((ImageView)view).setImageBitmap(drawable[pos[position]]);
-                        matches++;
-                        StyleableToast.makeText(getApplicationContext(),"Match!",R.style.successToast).show();
+                        currentPos=-1;
+                        secondcardopen = false;
                         currentView.setOnClickListener(null);
                         ((ImageView)view).setOnClickListener(null);
+                        ((ImageView)view).setImageBitmap(drawable[pos[position]]);
+                        matches++;
                         updateMatchCount(matches);
+                        triggermatchtoast();
                         if(matches==6){
+                            chronometer.stop();
                             musicPlayerService.playVictoryMusic();
-                            mContainer= (EmojiRainLayout)findViewById(R.id.rain);
-
-                            mContainer.addEmoji(R.drawable.confetti);
-                            mContainer.addEmoji(R.drawable.fireworks);
-                            mContainer.addEmoji(R.drawable.popper);
-                            mContainer.addEmoji(R.drawable.confetti);
-                            mContainer.addEmoji(R.drawable.fireworks);
-                            mContainer.addEmoji(R.drawable.popper);
-
-                            mContainer.stopDropping();
-                            mContainer.setPer(10);
-                            mContainer.setDuration(7200);
-                            mContainer.setDropDuration(2400);
-                            mContainer.setDropFrequency(500);
-
-                            mContainer.startDropping();
+                            victoryAnimation();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -159,12 +156,10 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                             }, 4000);
                         }
                     }
-                    currentPos=-1;
                 }
             }
         });
     }
-
     private void retrieveImages(){
         images = new ArrayList<Img>();
         //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
@@ -172,7 +167,6 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
         //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
         //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
-
         for(int i=0; i<6; i++){
             String filename = "bitmap" + i;
             File file = new File(getApplicationContext().getFilesDir(), filename);
@@ -187,12 +181,10 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         Collections.shuffle(images);
     }
 
-
     private void updateMatchCount(int count){
         TextView matchcount = findViewById(R.id.matchCount);
         matchcount.setText(count + "/6");
     }
-
     @Override
     public void onPause(){
         super.onPause();
@@ -205,7 +197,6 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
             isChronometerRunning = false;
         }
     }
-
     @Override
     public void onResume(){
         super.onResume();
@@ -218,11 +209,11 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
             isChronometerRunning = true;
         }
     }
-
     private void endGame(){
         Intent intent=new Intent(this,SubmitActivity.class);
-        int elapsedMillis = (int) (SystemClock.elapsedRealtime() - chronometer.getBase());
-        int score = elapsedMillis/1000;
+        //elapsedMillis = (int) (SystemClock.elapsedRealtime() - chronometer.getBase());
+        String time = chronometer.getText().toString();
+        int score = parseStrTimeToIntScore(time);
         intent.putExtra("score", score);
         startActivity(intent);
     }
@@ -248,11 +239,50 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         }
     }
 
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
+    private void victoryAnimation(){
+        mContainer= (EmojiRainLayout)findViewById(R.id.rain);
+        mContainer.addEmoji(R.drawable.confetti);
+        mContainer.addEmoji(R.drawable.fireworks);
+        mContainer.addEmoji(R.drawable.popper);
+        mContainer.addEmoji(R.drawable.confetti);
+        mContainer.addEmoji(R.drawable.fireworks);
+        mContainer.addEmoji(R.drawable.popper);
+        mContainer.stopDropping();
+        mContainer.setPer(10);
+        mContainer.setDuration(7200);
+        mContainer.setDropDuration(2400);
+        mContainer.setDropFrequency(500);
+        mContainer.startDropping();
 
     }
 
+    private void triggermatchtoast(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                StyleableToast.makeText(getApplicationContext(),"Match!",R.style.successToast).show();
+            }
+        });
+    }
+    private void triggernoMatchToast(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                StyleableToast.makeText(getApplicationContext(),"Try again!",R.style.tryagainToast).show();
+            }
+        });
+    }
 
+    private int parseStrTimeToIntScore(String time){
+        String min = time.substring(0,2);
+        int minutes = parseInt(min);
+        String sec = time.substring(3);
+        int seconds = parseInt(sec);
+        return seconds + minutes*60;
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+    }
 
 }
