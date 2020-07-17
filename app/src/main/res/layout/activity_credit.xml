@@ -9,128 +9,132 @@
         <LinearLayout
             android:id="@+id/llayout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:weightSum="9">
 
             <TextView
                 android:id="@+id/musicCr"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:fontFamily="casual"
                 android:text="Music Credit"
+                android:textAlignment="center"
+                android:textColor="#000000"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:fontFamily="casual"
-                android:textAlignment="center"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/mainMusic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="Main Music"
-                android:textSize="18dp"
-                android:textColor="#000000"
+                android:layout_height="67dp"
+                android:layout_weight="1"
                 android:fontFamily="casual"
-                app:layout_constraintTop_toBottomOf="@id/musicCr"/>
+                android:paddingLeft="20dp"
+                android:text="Main Music"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@id/musicCr"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/mainMusicDetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="8 Bit Happy! Querky Fun Game Music by HeatleyBros\n[ https://www.youtube.com/watch?v=jHcWhQUmJ8E&amp;list=PLobY7vO0pgVKn4FRDgwXk5FUSiGS8_jA8&amp;index=7 ]"
-                android:textSize="12dp"
+                android:layout_height="126dp"
+                android:layout_weight="1"
                 android:fontFamily="casual"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                app:layout_constraintTop_toBottomOf="@id/mainMusic"/>
+                android:text="8 Bit Happy! Querky Fun Game Music by HeatleyBros\n[ https://www.youtube.com/watch?v=jHcWhQUmJ8E&amp;list=PLobY7vO0pgVKn4FRDgwXk5FUSiGS8_jA8&amp;index=7 ]"
+                android:textSize="12dp"
+                app:layout_constraintTop_toBottomOf="@id/mainMusic"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/gameMusic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="Game Music"
-                android:textSize="18dp"
-                android:textColor="#000000"
+                android:layout_height="67dp"
+                android:layout_weight="1"
                 android:fontFamily="casual"
-                app:layout_constraintTop_toBottomOf="@id/mainMusicDetail"/>
+                android:paddingLeft="20dp"
+                android:text="Game Music"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@id/mainMusicDetail"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/gameMusicDetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="136dp"
+                android:layout_weight="1"
+                android:fontFamily="casual"
+                android:orientation="horizontal"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:text="Press Start! Upbeat Inspiring Game Music by HeatleyBros\n[ https://www.youtube.com/watch?v=LFwB-Hk1350&amp;list=PLobY7vO0pgVKn4FRDgwXk5FUSiGS8_jA8&amp;index=53
  ]"
                 android:textSize="12dp"
-                android:fontFamily="casual"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                app:layout_constraintTop_toBottomOf="@id/gameMusic"/>
+                app:layout_constraintTop_toBottomOf="@id/gameMusic"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/victoryMusic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="Victory Music"
-                android:textSize="18dp"
-                android:textColor="#000000"
+                android:layout_height="67dp"
+                android:layout_weight="1"
                 android:fontFamily="casual"
-                app:layout_constraintTop_toBottomOf="@id/gameMusicDetail"/>
+                android:paddingLeft="20dp"
+                android:text="Victory Music"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@id/gameMusicDetail"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/victoryMusicDetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="Victory Fanfare by Nobuo Uematsu\n[ Licensed to Square Enix Co., Ltd.; LatinAutor, LatinAutor - Warner Chappell, Warner ]"
-                android:textSize="12dp"
+                android:layout_height="116dp"
+                android:layout_weight="1"
                 android:fontFamily="casual"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                app:layout_constraintTop_toBottomOf="@id/victoryMusic"/>
+                android:text="Victory Fanfare by Nobuo Uematsu\n[ Licensed to Square Enix Co., Ltd.; LatinAutor, LatinAutor - Warner Chappell, Warner ]"
+                android:textSize="12dp"
+                app:layout_constraintTop_toBottomOf="@id/victoryMusic"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/members"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="75dp"
+                android:layout_weight="1"
+                android:fontFamily="casual"
+                android:orientation="horizontal"
                 android:text="Developers"
+                android:textAlignment="center"
+                android:textColor="#000000"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:fontFamily="casual"
-                android:textAlignment="center"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/victoryMusicDetail"/>
+                app:layout_constraintTop_toBottomOf="@id/victoryMusicDetail"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
 
             <TextView
                 android:id="@+id/memberDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="Aye Pyae Sone\nChoo Teck Kian\nGuo Xiujuan\nLim Ai Ching Jade\nPei Jia En\nSein Lai Hnin\nWu Yuding\nYe Thatoe Kyaw\nZhang Yuanchang\n\n"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:fontFamily="casual"
                 android:textColor="#000000"
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
