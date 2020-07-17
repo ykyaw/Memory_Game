@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -146,37 +147,42 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     }
 
     public void downloadImgs(ArrayList<String> imgUrls) {
-        int imageLen = 0;
-        int totalSoFar = 0;
-        int readLen = 0;
         Bitmap bitmap = null;
-        int lastPercent = 0;
-        byte[] imgBytes;
         for (int i = 0; i < 20; i++) {
             String imgUrl = imgUrls.get(i);
             try {
+                InputStream in = null;
                 URL url = new URL(imgUrl);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
+                int response = -1;
 
-                imageLen = conn.getContentLength();
-                imgBytes = new byte[imageLen];
+                HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+                httpConn.setRequestMethod("GET");
+                httpConn.connect();
 
-                InputStream in = url.openStream();
-                BufferedInputStream bufIn = new BufferedInputStream(in, 2048);
+                response = httpConn.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    in = httpConn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(in);
+                    Img img = new Img();
+                    img.setUid(i);
+                    img.setRes(bitmap);
+                    imgList.set(i, img);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            gridViewAdapter=new MyAdapter<Img>((ArrayList)imgList,R.layout.item_grid_img){
+                                @Override
+                                public void bindView(ViewHolder holder, Img img) {
+                                    holder.setImageBitmap(R.id.img,img.getRes());
 
-                byte[] data = new byte[1024];
-                while ((readLen = bufIn.read(data)) != -1) {
-                    System.arraycopy(data, 0, imgBytes, totalSoFar, readLen);
-                    totalSoFar += readLen;
+                                }
+                            };
 
-                    int percent = Math.round(totalSoFar * 100) / imageLen;
-                    if (percent - lastPercent >= 10) {
-                        lastPercent = percent;
-                    }
+                            gridView.setAdapter(gridViewAdapter);
+                        }
+                    });
                 }
-                bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imageLen);
-                //progressupdate
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

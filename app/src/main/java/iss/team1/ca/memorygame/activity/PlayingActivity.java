@@ -116,6 +116,8 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         matches++;
                         Toast.makeText(getApplicationContext(), "Match!", Toast.LENGTH_SHORT).show();
+                        currentView.setOnClickListener(null);
+                        ((ImageView)view).setOnClickListener(null);
                         updateMatchCount(matches);
                         if(matches==6){
                             endGame();
