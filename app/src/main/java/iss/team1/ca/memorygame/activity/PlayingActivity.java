@@ -133,7 +133,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                         currentView.setOnClickListener(null);
                         ((ImageView)view).setOnClickListener(null);
                         updateMatchCount(matches);
-                        if(matches==2){
+                        if(matches==6){
                             musicPlayerService.playVictoryMusic();
                             mContainer= (EmojiRainLayout)findViewById(R.id.rain);
 
