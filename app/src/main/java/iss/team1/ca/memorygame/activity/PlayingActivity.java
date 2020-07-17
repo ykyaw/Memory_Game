@@ -18,6 +18,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.luolc.emojirain.EmojiRainLayout;
+import com.muddzdev.styleabletoast.StyleableToast;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,6 +51,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
     private int currentPos = -1;
     //Music Player
     MusicPlayerService musicPlayerService;
+    private EmojiRainLayout mContainer;
 
 
     @Override
@@ -71,6 +76,8 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
             }).start();
             isChronometerRunning = true;
         }
+
+
         shuffleArray(pos);
         //Assign Match Counter
         updateMatchCount(matches);
@@ -88,6 +95,12 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                 images.get(3).getRes(),
                 images.get(4).getRes(),
                 images.get(5).getRes(),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.afraid),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.full),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.hug),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.peep),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.snore),
+//                BitmapFactory.decodeResource(getResources(),R.drawable.stop),
         };
         GridView gridView = (GridView)findViewById(R.id.gridViewPlay);
         PlayAdapter playAdapter = new PlayAdapter(this);
@@ -106,21 +119,44 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                currentView.setImageResource(R.drawable.backofcard);
-                                ((ImageView)view).setImageResource(R.drawable.backofcard);
+                                currentView.setImageResource(R.drawable.turtlecard);
+                                ((ImageView)view).setImageResource(R.drawable.turtlecard);
                                 //Possible toast for not matching
+                                StyleableToast.makeText(getApplicationContext(),"Try again!",R.style.tryagainToast).show();
                             }
                         }, 500);
                     }
                     else{
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         matches++;
-                        Toast.makeText(getApplicationContext(), "Match!", Toast.LENGTH_SHORT).show();
+                        StyleableToast.makeText(getApplicationContext(),"Match!",R.style.successToast).show();
                         currentView.setOnClickListener(null);
                         ((ImageView)view).setOnClickListener(null);
                         updateMatchCount(matches);
-                        if(matches==6){
-                            endGame();
+                        if(matches==2){
+                            musicPlayerService.playVictoryMusic();
+                            mContainer= (EmojiRainLayout)findViewById(R.id.rain);
+
+                            mContainer.addEmoji(R.drawable.confetti);
+                            mContainer.addEmoji(R.drawable.fireworks);
+                            mContainer.addEmoji(R.drawable.popper);
+                            mContainer.addEmoji(R.drawable.confetti);
+                            mContainer.addEmoji(R.drawable.fireworks);
+                            mContainer.addEmoji(R.drawable.popper);
+
+                            mContainer.stopDropping();
+                            mContainer.setPer(10);
+                            mContainer.setDuration(7200);
+                            mContainer.setDropDuration(2400);
+                            mContainer.setDropFrequency(500);
+
+                            mContainer.startDropping();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    endGame();
+                                }
+                            }, 4000);
                         }
                     }
                     currentPos=-1;

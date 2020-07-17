@@ -78,6 +78,14 @@
         android:layout_weight="9"
         android:orientation="horizontal">
 
+        <com.luolc.emojirain.EmojiRainLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/rain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
         <GridView
             android:id="@+id/gridViewPlay"
             android:layout_width="match_parent"
@@ -88,8 +96,8 @@
             android:numColumns="3"
             android:verticalSpacing="0dp" />
 
+    </com.luolc.emojirain.EmojiRainLayout>
     </LinearLayout>
-
 </LinearLayout>
 
 

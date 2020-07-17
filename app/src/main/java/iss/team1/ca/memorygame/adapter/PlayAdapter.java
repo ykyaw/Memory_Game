@@ -41,7 +41,7 @@ public class PlayAdapter extends BaseAdapter {
         }else {
             imageView = (ImageView) cview;
         }
-        imageView.setImageResource(R.drawable.backofcard);
+        imageView.setImageResource(R.drawable.turtlecard);
         return imageView;
     }
 }

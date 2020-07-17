@@ -108,7 +108,8 @@ public class SubmitActivity extends AppCompatActivity implements ServiceConnecti
         MusicPlayerService.MyBinder binder = (MusicPlayerService.MyBinder) iBinder;
         if(binder != null) {
             musicPlayerService = binder.getService();
-            musicPlayerService.playVictoryMusic();
+            //musicPlayerService.playVictoryMusic();
+            musicPlayerService.unpauseMusic();
         }
     }
 

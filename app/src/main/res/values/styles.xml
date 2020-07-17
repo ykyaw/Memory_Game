@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name = "tryagainToast">
+        <item name = "stColorBackground">#ff9496</item>
+        <item name="stIconStart">@drawable/ic_retry</item>
+    </style>
+
+    <style name = "successToast">
+        <item name ="stColorBackground">#94b4ff</item>
+        <item name="stTextColor"> #fff</item>
+        <item name="stIconStart">@drawable/ic_star</item>
+        <item name="stIconEnd">@drawable/ic_star</item>
+    </style>
 </resources>
