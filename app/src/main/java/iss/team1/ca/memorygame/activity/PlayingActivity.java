@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Chronometer;
 import android.widget.GridView;
@@ -58,6 +60,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
     private int backpress;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
@@ -83,6 +86,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         shuffleArray(pos);
         //Assign Match Counter
         updateMatchCount(matches);
+
         init();
     }
     //Initializing the game
@@ -108,7 +112,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id) {
-
+                final Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
                 if(secondcardopen == true){
                     return;
                 }
@@ -116,25 +120,30 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                     currentPos = position;
                     currentView = (ImageView) view;
                     ((ImageView)view).setImageBitmap(drawable[pos[position]]);
+                    ((ImageView)view).startAnimation(flip);
                 }
                 else{
                     secondcardopen = true;
                     if(currentPos == position){
                         currentPos=-1;
                         ((ImageView)view).setImageResource(R.drawable.turtlecard);
+                        ((ImageView)view).startAnimation(flip);
                         secondcardopen = false;
                     }
                     else if (pos[currentPos] != pos[position]){
                         currentPos=-1;
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
+                        ((ImageView)view).startAnimation(flip);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 currentView.setImageResource(R.drawable.turtlecard);
                                 ((ImageView)view).setImageResource(R.drawable.turtlecard);
+                                currentView.startAnimation(flip);
+                                ((ImageView)view).startAnimation(flip);
                                 secondcardopen = false;
                             }
-                        }, 300);
+                        }, 500);
                         triggernoMatchToast();
                     }
                     else{
@@ -143,6 +152,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                         currentView.setOnClickListener(null);
                         ((ImageView)view).setOnClickListener(null);
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
+                        ((ImageView)view).startAnimation(flip);
                         matches++;
                         updateMatchCount(matches);
                         triggermatchtoast();
