@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grass"
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
@@ -13,12 +14,12 @@
         android:gravity="center"
         android:layout_weight="1">
 
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:id="@+id/name"
-            android:background="@drawable/circle_button_style"/>
-
+        <ImageView
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:paddingTop="40dp"
+            android:src="@drawable/logo"
+            android:id="@+id/logo"/>
     </LinearLayout>
 
     <LinearLayout
@@ -27,15 +28,57 @@
         android:gravity="center"
         android:layout_weight="1">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="casual"
+            android:textSize="28dp"
+            android:id="@+id/name"
+            app:layout_constraintTop_toBottomOf="@id/logo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/play_button"
+            android:id="@+id/play"
+            android:text="     Play     "
+            android:textColor="#FFFFFF"
+            android:fontFamily="casual"
+            android:textStyle="bold"
             android:textSize="18sp"
-            android:id="@+id/play"/>
+            android:background="@drawable/custom_button_play"/>
+
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/howtoplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_other"
+            android:fontFamily="casual"
+            android:padding="10dp"
+            android:text="How to play"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +98,12 @@
                 android:textSize="18sp"
                 android:id="@+id/score"
                 android:layout_marginStart="20dp"
-                android:text="@string/score"/>
+                android:text="@string/score"
+                android:textColor="#FFFFFF"
+                android:fontFamily="casual"
+                android:textStyle="bold"
+                android:background="@drawable/custom_button_other"
+                android:layout_marginBottom="12dp"/>
 
         </LinearLayout>
 
@@ -72,7 +120,12 @@
                 android:textSize="18sp"
                 android:id="@+id/credits"
                 android:layout_marginEnd="20dp"
-                android:text="@string/credits"/>
+                android:text="@string/credits"
+                android:textColor="#FFFFFF"
+                android:fontFamily="casual"
+                android:textStyle="bold"
+                android:background="@drawable/custom_button_other"
+                android:layout_marginBottom="12dp"/>
 
         </LinearLayout>
 

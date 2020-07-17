@@ -1,7 +1,9 @@
 package iss.team1.ca.memorygame.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -9,7 +11,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -54,6 +59,8 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     private MyAdapter gridViewAdapter=null;
     private List<Img> imgList=null;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
@@ -72,7 +79,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         fetchBtn = (Button) findViewById(R.id.fetchBtn);
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 websiteUrl = inputUrl.getText().toString();
                 if (websiteUrl.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter a url", Toast.LENGTH_LONG).show();
@@ -81,14 +88,30 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                         @Override
                         public void run() {
                             // clearImgs();
-                            String htmlString = readHtmlFromUrl(websiteUrl);
-                            if (htmlString.isEmpty()) {
-                                Toast.makeText(getApplicationContext(), "Error 404. Page Not Found.", Toast.LENGTH_LONG).show();
+
+                                String htmlString = readHtmlFromUrl(websiteUrl);
+                                ArrayList<String> imgUrls = getImgUrls(htmlString);
+                                if(htmlString.isEmpty()){
+                                   runOnUiThread(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
+                                       }
+                                   });
+                                }
+                                else if (imgUrls.size()<20){
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "Not enough images to load from this URL", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                                else {
+                                    downloadImgs(imgUrls);
+                                }
                             }
-                            ArrayList<String> imgUrls = getImgUrls(htmlString);
-                            downloadImgs(imgUrls);
-                        }
-                    }).start();
+                        }).start();
                 }
             }
         });
@@ -133,6 +156,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         }
     }
 
+
     public ArrayList<String> getImgUrls(String htmlText){
         ArrayList<String> imgUrls = new ArrayList<String>();
         String imgRegex = "(?i)<img+\\s+?data-cfsrc\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
@@ -145,6 +169,8 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         }
         return imgUrls;
     }
+
+
 
     public void downloadImgs(ArrayList<String> imgUrls) {
         Bitmap bitmap = null;
@@ -167,6 +193,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                     img.setUid(i);
                     img.setRes(bitmap);
                     imgList.set(i, img);
+                    final int indexImgDL = i + 1;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -174,11 +201,20 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                 @Override
                                 public void bindView(ViewHolder holder, Img img) {
                                     holder.setImageBitmap(R.id.img,img.getRes());
-
                                 }
                             };
-
                             gridView.setAdapter(gridViewAdapter);
+                            int percentCompleted = indexImgDL * 5;
+                            TextView progressTextView = findViewById(R.id.progressTxt);
+                            progressTextView.setText("Downloading " + indexImgDL +" of 20 images");
+                            ProgressBar mProgressBar = findViewById(R.id.progressBar);
+                            if (percentCompleted == 100) {
+                                mProgressBar.setVisibility(View.GONE);
+                                progressTextView.setText("Select 6 images to play" );
+                            } else {
+                                mProgressBar.setVisibility(View.VISIBLE);
+                                mProgressBar.setProgress(percentCompleted);
+                            }
                         }
                     });
                 }

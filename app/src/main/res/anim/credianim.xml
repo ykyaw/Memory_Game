@@ -6,7 +6,7 @@
         android:interpolator="@android:anim/linear_interpolator"
         android:fromYDelta="100%p"
         android:toYDelta="-100%p"
-        android:duration="30000"
+        android:duration="15000"
         android:repeatCount="infinite"
         />
 
