@@ -8,11 +8,17 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class CreditActivity extends AppCompatActivity implements ServiceConnection {
+
+    private LinearLayout linearLayout;
+    private Animation animation;
 
     MusicPlayerService musicPlayerService;
     @Override
@@ -25,6 +31,11 @@ public class CreditActivity extends AppCompatActivity implements ServiceConnecti
         //Binding to music service to allow music to unpause. Refer to onServiceConnected method
         Intent musicIntent = new Intent(this, MusicPlayerService.class);
         bindService(musicIntent, this, BIND_AUTO_CREATE);
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.credianim);
+
+        linearLayout = (LinearLayout) findViewById(R.id.llayout);
+        linearLayout.startAnimation(animation);
 
     }
 
