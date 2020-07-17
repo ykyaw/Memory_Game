@@ -1,6 +1,7 @@
 package iss.team1.ca.memorygame.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,6 +152,14 @@ public abstract class MyAdapter<T> extends BaseAdapter {
             return this;
         }
 
+
+        public ViewHolder setImageBitmap(int id, Bitmap res){
+            View view = getView(id);
+            if (view instanceof ImageView) {
+                ((ImageView) view).setImageBitmap(res);
+            } 
+            return this;
+        }
 
         public ViewHolder setImageResource(int id, int drawableRes) {
             View view = getView(id);
