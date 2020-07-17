@@ -37,7 +37,8 @@ public class PlayAdapter extends BaseAdapter {
         if(cview == null){
             imageView = new ImageView(this.context);
             imageView.setLayoutParams(new GridView.LayoutParams(350,350));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         }else {
             imageView = (ImageView) cview;
         }

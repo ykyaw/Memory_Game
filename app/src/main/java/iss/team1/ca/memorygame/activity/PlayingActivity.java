@@ -1,5 +1,6 @@
 package iss.team1.ca.memorygame.activity;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
     MusicPlayerService musicPlayerService;
     private EmojiRainLayout mContainer;
     private boolean secondcardopen = false;
+    private int backpress;
 
 
     @Override
@@ -93,12 +95,12 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
                 images.get(3).getRes(),
                 images.get(4).getRes(),
                 images.get(5).getRes(),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.afraid),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.full),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.hug),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.peep),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.snore),
-//                BitmapFactory.decodeResource(getResources(),R.drawable.stop),
+/*                BitmapFactory.decodeResource(getResources(),R.drawable.z1),
+                BitmapFactory.decodeResource(getResources(),R.drawable.z2),
+                BitmapFactory.decodeResource(getResources(),R.drawable.z3),
+                BitmapFactory.decodeResource(getResources(),R.drawable.z4),
+                BitmapFactory.decodeResource(getResources(),R.drawable.z5),
+                BitmapFactory.decodeResource(getResources(),R.drawable.z6),*/
         };
         GridView gridView = (GridView)findViewById(R.id.gridViewPlay);
         PlayAdapter playAdapter = new PlayAdapter(this);
@@ -280,6 +282,19 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         int seconds = parseInt(sec);
         return seconds + minutes*60;
     }
+
+    public void onBackPressed(){
+        if(backpress<1){
+            Toast.makeText(getApplicationContext(), " Press Back again to return to Main Menu ", Toast.LENGTH_SHORT).show();
+        }
+        backpress++;
+        if (backpress>1) {
+            Intent intent=new Intent(this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
