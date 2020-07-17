@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     Button play;
     Button credits;
+    Button howtoplay;
     Button score;
     TextView name;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     private void init(){
         play=(Button) findViewById(R.id.play);
         credits=(Button) findViewById(R.id.credits);
+        howtoplay=(Button) findViewById(R.id.howtoplay);
         score=(Button) findViewById(R.id.score);
         name=(TextView) findViewById(R.id.name);
 
@@ -87,6 +89,14 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context,CreditActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        howtoplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,HowtoplayActivity.class);
                 startActivity(intent);
             }
         });
