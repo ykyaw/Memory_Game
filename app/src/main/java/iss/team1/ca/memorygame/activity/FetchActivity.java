@@ -17,6 +17,7 @@ import android.os.Message;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,7 +62,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     private MyAdapter gridViewAdapter=null;
     private List<Img> imgList=null;
     private boolean stopThread=false;
-
+    private ArrayList<Integer> selectedImgUid = new ArrayList<Integer>();
 
 
     @Override
@@ -81,6 +84,11 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                TextView progressTextView = findViewById(R.id.progressTxt);
+                progressTextView.setVisibility(View.VISIBLE);
+                progressTextView.setText("Downloading...");
+                Button playBtn = findViewById(R.id.playBtn);
+                playBtn.setVisibility(View.GONE);
                 ProgressBar mProgressBar = findViewById(R.id.progressBar);
                 //System.out.println(mProgressBar.getProgress());
                 if (mProgressBar.getProgress()!=0 && mProgressBar.getProgress()!=100){
@@ -161,6 +169,45 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         };
 
         gridView.setAdapter(gridViewAdapter);
+        gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView progressTextView = findViewById(R.id.progressTxt);
+                Button playBtn = findViewById(R.id.playBtn);
+                playBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        startPlayingActivity();
+                    }
+                });
+                imgList.get(position).toggleSelected();
+                int selectedCount = getSelectedCount();
+                if (selectedCount < 6) {
+                    playBtn.setVisibility(View.GONE);
+                    progressTextView.setVisibility(View.VISIBLE);
+                    progressTextView.setText(selectedCount + "/6 images selected");
+                } else if (selectedCount > 6) {
+                    playBtn.setVisibility(View.GONE);
+                    progressTextView.setVisibility(View.VISIBLE);
+                    progressTextView.setText("Too many images selected!");
+                } else {
+                    playBtn.setVisibility(View.VISIBLE);
+                    progressTextView.setVisibility(View.GONE);
+                }
+            }
+
+        });
+    }
+
+    public int getSelectedCount() {
+        int count = 0;
+        for (int i = 0; i < 20; i++) {
+            if (imgList.get(i).isSelected()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void stop() {
@@ -190,7 +237,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
 
     public ArrayList<String> getImgUrls(String htmlText){
         ArrayList<String> imgUrls = new ArrayList<String>();
-        String imgRegex = "(?i)<img+\\s+?data-cfsrc\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
+        String imgRegex = "(?i)<img+\\s+?data-cfsrc\\s*=\\s*['\"](?!.*shutterstock)([^'\"]+)['\"][^>]*>";
 
         Pattern p = Pattern.compile(imgRegex);
         Matcher m = p.matcher(htmlText);
@@ -237,8 +284,8 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                 }
                             };
                             gridView.setAdapter(gridViewAdapter);
-                            int percentCompleted = indexImgDL * 5;
                             TextView progressTextView = findViewById(R.id.progressTxt);
+                            int percentCompleted = indexImgDL * 5;
                             progressTextView.setText("Downloading " + indexImgDL +" of 20 images");
                             ProgressBar mProgressBar = findViewById(R.id.progressBar);
                             if (percentCompleted == 100) {
@@ -287,5 +334,29 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
 
+    }
+
+    void startPlayingActivity() {
+        saveSelectedBmps();
+        Intent intent = new Intent(this, PlayingActivity.class);
+        startActivity(intent);
+    }
+
+    void saveSelectedBmps() {
+        int number = 0;
+        for (int i = 0; i < 20; i++) {
+            if (imgList.get(i).isSelected()) {
+                String filename = "bitmap" + number;
+                File file = new File(getApplicationContext().getFilesDir(), filename);
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    imgList.get(i).getRes().compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                number++;
+            }
+        }
     }
 }

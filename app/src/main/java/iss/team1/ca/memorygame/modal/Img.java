@@ -9,6 +9,7 @@ public class Img implements Serializable {
     private int uid;
     private String url;
     private Bitmap res;
+    private boolean isSelected = false;
 
     public Img() {
     }
@@ -64,5 +65,17 @@ public class Img implements Serializable {
                 ", url='" + url + '\'' +
                 ", res=" + res +
                 '}';
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void toggleSelected() {
+        isSelected = !isSelected;
+    }
+
+    public void clearSelected() {
+        isSelected = false;
     }
 }
