@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.os.Message;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,6 +86,11 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                //Hide Keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+
                 TextView progressTextView = findViewById(R.id.progressTxt);
                 progressTextView.setVisibility(View.VISIBLE);
                 progressTextView.setText("Downloading...");
