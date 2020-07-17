@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -192,6 +193,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                     img.setUid(i);
                     img.setRes(bitmap);
                     imgList.set(i, img);
+                    final int indexImgDL = i + 1;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -199,11 +201,20 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                 @Override
                                 public void bindView(ViewHolder holder, Img img) {
                                     holder.setImageBitmap(R.id.img,img.getRes());
-
                                 }
                             };
-
                             gridView.setAdapter(gridViewAdapter);
+                            int percentCompleted = indexImgDL * 5;
+                            TextView progressTextView = findViewById(R.id.progressTxt);
+                            progressTextView.setText("Downloading " + indexImgDL +" of 20 images");
+                            ProgressBar mProgressBar = findViewById(R.id.progressBar);
+                            if (percentCompleted == 100) {
+                                mProgressBar.setVisibility(View.GONE);
+                                progressTextView.setText("Select 6 images to play" );
+                            } else {
+                                mProgressBar.setVisibility(View.VISIBLE);
+                                mProgressBar.setProgress(percentCompleted);
+                            }
                         }
                     });
                 }
