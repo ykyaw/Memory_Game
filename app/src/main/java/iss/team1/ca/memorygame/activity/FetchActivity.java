@@ -58,6 +58,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
 
     private MyAdapter gridViewAdapter=null;
     private List<Img> imgList=null;
+    private boolean stopThread=false;
 
 
 
@@ -80,6 +81,12 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                ProgressBar mProgressBar = findViewById(R.id.progressBar);
+                //System.out.println(mProgressBar.getProgress());
+                if (mProgressBar.getProgress()!=0 && mProgressBar.getProgress()!=100){
+                    stop();
+                    resetGridView();
+                }
                 websiteUrl = inputUrl.getText().toString();
                 if (websiteUrl.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter a url", Toast.LENGTH_LONG).show();
@@ -108,6 +115,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                                     });
                                 }
                                 else {
+                                    stopThread=false;
                                     downloadImgs(imgUrls);
                                 }
                             }
@@ -116,7 +124,27 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
             }
         });
         inputUrl = findViewById(R.id.inputUrl);
+        resetGridView();
+//        gridView = (GridView) findViewById(R.id.grid_img);
+//
+//        imgList = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            imgList.add(new Img(R.drawable.ic_launcher_background));
+//        }
+//
+//        gridViewAdapter=new MyAdapter<Img>((ArrayList)imgList,R.layout.item_grid_img){
+//            @Override
+//            public void bindView(ViewHolder holder, Img img) {
+//                holder.setImageResource(R.id.img,img.getUid());
+//
+//            }
+//        };
+//
+//        gridView.setAdapter(gridViewAdapter);
 
+    }
+
+    private void resetGridView() {
         gridView = (GridView) findViewById(R.id.grid_img);
 
         imgList = new ArrayList<>();
@@ -133,7 +161,10 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         };
 
         gridView.setAdapter(gridViewAdapter);
+    }
 
+    private void stop() {
+        stopThread=true;
     }
 
     public String readHtmlFromUrl(String websiteUrl) {
@@ -175,6 +206,8 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     public void downloadImgs(ArrayList<String> imgUrls) {
         Bitmap bitmap = null;
         for (int i = 0; i < 20; i++) {
+            if(stopThread)
+                return;
             String imgUrl = imgUrls.get(i);
             try {
                 InputStream in = null;
