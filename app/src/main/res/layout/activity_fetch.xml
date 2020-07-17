@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Input a URL"
+        android:text="https://stocksnap.io/search/london"
         android:layout_alignBottom="@id/fetchBtn"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@id/fetchBtn" />
