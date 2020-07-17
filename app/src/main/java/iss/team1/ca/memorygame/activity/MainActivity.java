@@ -64,11 +64,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         score=(Button) findViewById(R.id.score);
         name=(Button)findViewById(R.id.name);
 
-        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
-        if(pref.contains("username")&&pref.contains("uid")){
-            name.setText(pref.getString("username",""));
-            hasAccount=true;
-        }
+        hasAccount=checkAccount();
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +92,15 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 startActivity(intent);
             }
         });
+    }
+
+    private boolean checkAccount(){
+        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
+        if(pref.contains("username")&&pref.contains("uid")){
+            name.setText(pref.getString("username",""));
+            return true;
+        }
+        return false;
     }
 
     private void startPlayActivity(){
@@ -171,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     @Override
     public void onResume(){
         super.onResume();
+        checkAccount();
         if(musicPlayerService!=null){
             musicPlayerService.unpauseMusic();
         }
