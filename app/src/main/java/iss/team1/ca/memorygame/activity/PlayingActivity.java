@@ -34,6 +34,7 @@ import java.util.Random;
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.PlayAdapter;
 import iss.team1.ca.memorygame.comm.BaseActivity;
+import iss.team1.ca.memorygame.comm.utils.ActivityCollector;
 import iss.team1.ca.memorygame.modal.Img;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
@@ -296,7 +297,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         }
         backpress++;
         if (backpress>1) {
-            finish();
+            ActivityCollector.goToMainActivity();
         }
     }
     
