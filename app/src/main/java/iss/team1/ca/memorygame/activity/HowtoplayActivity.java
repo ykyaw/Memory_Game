@@ -13,9 +13,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import iss.team1.ca.memorygame.R;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
-public class HowtoplayActivity extends AppCompatActivity implements ServiceConnection {
+public class HowtoplayActivity extends BaseActivity implements ServiceConnection {
 
 
     MusicPlayerService musicPlayerService;

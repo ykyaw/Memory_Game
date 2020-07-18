@@ -21,12 +21,13 @@ import java.util.List;
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.MyAdapter;
 import iss.team1.ca.memorygame.bean.Score;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.comm.utils.JSONUtil;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
-public class HighScoreActivity extends AppCompatActivity implements ServiceConnection {
+public class HighScoreActivity extends BaseActivity implements ServiceConnection {
 
     private ListView highScoreList;
     private TextView name_top1,name_top2,name_top3;

@@ -33,13 +33,14 @@ import java.util.Collections;
 import java.util.Random;
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.PlayAdapter;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.modal.Img;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 import static java.lang.Integer.parseInt;
 
 
-public class PlayingActivity extends AppCompatActivity implements ServiceConnection {
+public class PlayingActivity extends BaseActivity implements ServiceConnection {
 
     //Chronometer
     private Chronometer chronometer;
@@ -228,6 +229,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         int score = parseStrTimeToIntScore(time);
         intent.putExtra("score", score);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -299,8 +301,7 @@ public class PlayingActivity extends AppCompatActivity implements ServiceConnect
         }
         backpress++;
         if (backpress>1) {
-            Intent intent=new Intent(this,MainActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 

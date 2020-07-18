@@ -50,10 +50,11 @@ import java.util.regex.Pattern;
 
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.adapter.MyAdapter;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.modal.Img;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
-public class FetchActivity extends AppCompatActivity implements ServiceConnection {
+public class FetchActivity extends BaseActivity implements ServiceConnection {
 
     EditText inputUrl;
     Button fetchBtn;

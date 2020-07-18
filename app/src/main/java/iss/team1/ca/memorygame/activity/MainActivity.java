@@ -27,12 +27,13 @@ import java.util.Map;
 
 import iss.team1.ca.memorygame.R;
 import iss.team1.ca.memorygame.bean.User;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.comm.CommonConstant;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.comm.utils.JSONUtil;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
-public class MainActivity extends AppCompatActivity implements ServiceConnection {
+public class MainActivity extends BaseActivity implements ServiceConnection {
 
     Button play;
     Button credits;

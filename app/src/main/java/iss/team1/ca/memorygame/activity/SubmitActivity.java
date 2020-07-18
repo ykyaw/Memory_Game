@@ -21,11 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import iss.team1.ca.memorygame.R;
+import iss.team1.ca.memorygame.comm.BaseActivity;
 import iss.team1.ca.memorygame.comm.CommonConstant;
+import iss.team1.ca.memorygame.comm.utils.ActivityCollector;
 import iss.team1.ca.memorygame.comm.utils.HttpUtil;
 import iss.team1.ca.memorygame.service.MusicPlayerService;
 
-public class SubmitActivity extends AppCompatActivity implements ServiceConnection {
+public class SubmitActivity extends BaseActivity implements ServiceConnection {
 
     Button submit;
     Button play_again;
@@ -79,6 +81,7 @@ public class SubmitActivity extends AppCompatActivity implements ServiceConnecti
                         .sendStringRequest(Request.Method.POST, CommonConstant.HttpUrl.SUBMIT_SCORE, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                ActivityCollector.finishAll();
                                 startMainActivity();
                             }
                         }, new Response.ErrorListener() {
