@@ -15,4 +15,5 @@
     <string name="score_title_score">score</string>
     <string name="paly_result_title">"Congratulation! "</string>
     <string name="score_sentence">Your score is  </string>
+    <string name="play_again">play again</string>
 </resources>

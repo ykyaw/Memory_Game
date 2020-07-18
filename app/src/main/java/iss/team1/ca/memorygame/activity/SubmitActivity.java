@@ -28,6 +28,7 @@ import iss.team1.ca.memorygame.service.MusicPlayerService;
 public class SubmitActivity extends AppCompatActivity implements ServiceConnection {
 
     Button submit;
+    Button play_again;
     TextView player_name;
     TextView game_result;
     int score;
@@ -56,6 +57,7 @@ public class SubmitActivity extends AppCompatActivity implements ServiceConnecti
 
     private void init(){
         submit=(Button)findViewById(R.id.submit);
+        play_again=(Button)findViewById(R.id.play_again);
         player_name=(TextView)findViewById(R.id.player_name);
         game_result=(TextView)findViewById(R.id.game_result);
 
@@ -85,6 +87,14 @@ public class SubmitActivity extends AppCompatActivity implements ServiceConnecti
                                 error.printStackTrace();
                             }
                         },params);
+            }
+        });
+
+        play_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SubmitActivity.this,PlayingActivity.class);
+                startActivity(intent);
             }
         });
     }
