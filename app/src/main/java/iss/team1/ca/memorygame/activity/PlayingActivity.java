@@ -145,14 +145,6 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
                         ((ImageView)view).setOnClickListener(null);
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         ((ImageView)view).startAnimation(flip);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Animation blink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
-                                ((ImageView)view).startAnimation(blink);
-                                currentView.startAnimation(blink);
-                            }
-                        }, 500);
                         matches++;
                         updateMatchCount(matches);
                         triggermatchtoast();
