@@ -186,8 +186,8 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                 Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
                 if (imgList.get(position).isSelected()) {
                     view.startAnimation(flip);
-                    view.setAlpha(0.4f);
-                    view.setBackgroundColor(Color.CYAN);
+                    view.setAlpha(0.9f);
+                    view.setBackgroundColor(Color.parseColor("#16BFC4"));
                 } else {
                     view.startAnimation(flip);
                     view.setAlpha(1);
