@@ -46,6 +46,7 @@ import static java.lang.Integer.parseInt;
 
 public class PlayingActivity extends BaseActivity implements ServiceConnection {
 
+    GridView gridView;
     //Chronometer
     private Chronometer chronometer;
     private boolean isChronometerRunning;
@@ -70,6 +71,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide(); //hide the title bar
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing);
 
@@ -77,8 +79,25 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         Intent musicIntent = new Intent(this, MusicPlayerService.class);
         bindService(musicIntent, this, BIND_AUTO_CREATE);
 
-        //Assign chronometer
+        retrieveImages(); //retrieve bitmap images from previous activity
+
+        init();
+    }
+    //Initializing the game
+    private void init(){
+        gridView = (GridView)findViewById(R.id.gridViewPlay);
         chronometer = findViewById(R.id.chronometer);
+
+        drawable = new Bitmap[]{ //assigns bitmap images to a bitmap array
+                images.get(0).getRes(),
+                images.get(1).getRes(),
+                images.get(2).getRes(),
+                images.get(3).getRes(),
+                images.get(4).getRes(),
+                images.get(5).getRes(),
+        };
+
+        //Assign chronometer
         if(!isChronometerRunning){
             new Thread(new Runnable() {
                 @Override
@@ -92,22 +111,9 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         //Assign Match Counter
         updateMatchCount(matches);
 
-        init();
-    }
-    //Initializing the game
-    private void init(){
-        retrieveImages(); //retrieve bitmap images from previous activity
-        drawable = new Bitmap[]{ //assigns bitmap images to a bitmap array
-                images.get(0).getRes(),
-                images.get(1).getRes(),
-                images.get(2).getRes(),
-                images.get(3).getRes(),
-                images.get(4).getRes(),
-                images.get(5).getRes(),
-        };
-        GridView gridView = (GridView)findViewById(R.id.gridViewPlay);
         PlayAdapter playAdapter = new PlayAdapter(this);
         gridView.setAdapter(playAdapter);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int position, long id) {
@@ -169,6 +175,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
             }
         });
     }
+
     private void retrieveImages(){
         images = new ArrayList<Img>();
         for(int i=0; i<6; i++){
@@ -189,6 +196,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         TextView matchcount = findViewById(R.id.matchCount);
         matchcount.setText(count + "/6");
     }
+
     @Override
     public void onPause(){
         super.onPause();
@@ -201,6 +209,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
             isChronometerRunning = false;
         }
     }
+
     @Override
     public void onResume(){
         super.onResume();
@@ -213,9 +222,9 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
             isChronometerRunning = true;
         }
     }
+
     private void endGame(){
         Intent intent=new Intent(this,SubmitActivity.class);
-        //elapsedMillis = (int) (SystemClock.elapsedRealtime() - chronometer.getBase());
         String time = chronometer.getText().toString();
         int score = parseStrTimeToIntScore(time);
         intent.putExtra("score", score);

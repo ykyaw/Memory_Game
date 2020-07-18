@@ -17,6 +17,7 @@ public class MusicPlayerService extends Service {
     private IBinder mBinder = new MyBinder();
     private Handler mHandler;
     private Boolean mIsPaused;
+    public int currentTrack;
 
     public MusicPlayerService() {
     }
@@ -59,8 +60,10 @@ public class MusicPlayerService extends Service {
             player.release();
         }
         player = MediaPlayer.create(this, R.raw.main_music);
+        currentTrack = 1;
         player.setLooping(true);
         player.start();
+
     }
     public void playGameMusic(){
         if(player !=null){
@@ -68,6 +71,7 @@ public class MusicPlayerService extends Service {
             player.release();
         }
         player = MediaPlayer.create(this, R.raw.game_music);
+        currentTrack = 2;
         player.setLooping(true);
         player.start();
     }
@@ -77,6 +81,7 @@ public class MusicPlayerService extends Service {
             player.release();
         }
         player = MediaPlayer.create(this, R.raw.victory_music);
+        currentTrack = 3;
         player.setLooping(true);
         player.start();
     }
@@ -96,6 +101,6 @@ public class MusicPlayerService extends Service {
         super.onTaskRemoved(rootIntent);
         stopSelf();
     }
-
+    
 
 }

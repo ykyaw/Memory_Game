@@ -18,12 +18,13 @@ import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class HowtoplayActivity extends BaseActivity implements ServiceConnection {
 
-
     MusicPlayerService musicPlayerService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide(); //hide the title bar
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_howtoplay);
 

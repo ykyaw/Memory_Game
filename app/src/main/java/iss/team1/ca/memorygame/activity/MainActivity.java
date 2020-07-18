@@ -189,7 +189,12 @@ public class MainActivity extends BaseActivity implements ServiceConnection {
         super.onResume();
         checkAccount();
         if(musicPlayerService!=null){
-            musicPlayerService.unpauseMusic();
+            if(musicPlayerService.currentTrack ==1){
+                musicPlayerService.unpauseMusic();
+            }else{
+                musicPlayerService.playMusic(1);
+            }
+
         }
     }
 
