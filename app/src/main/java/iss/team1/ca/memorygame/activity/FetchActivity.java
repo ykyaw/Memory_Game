@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,8 @@ import android.os.Message;
 import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -190,6 +193,14 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                     }
                 });
                 imgList.get(position).toggleSelected();
+                Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
+                if (imgList.get(position).isSelected()) {
+                    view.startAnimation(flip);
+                    view.setBackgroundColor(Color.CYAN);
+                } else {
+                    view.startAnimation(flip);
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
                 gridViewAdapter.notifyDataSetChanged();
                 int selectedCount = getSelectedCount();
                 if (selectedCount < 6) {
