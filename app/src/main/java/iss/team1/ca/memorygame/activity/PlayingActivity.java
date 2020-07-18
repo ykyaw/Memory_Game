@@ -2,6 +2,8 @@ package iss.team1.ca.memorygame.activity;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.Window;
@@ -59,7 +62,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
     MusicPlayerService musicPlayerService;
     private EmojiRainLayout mContainer;
     private boolean secondcardopen = false;
-    private int backpress;
+    private boolean goBack=false;
 
 
 
@@ -283,12 +286,22 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         return seconds + minutes*60;
     }
 
-    public void onBackPressed(){
-        if(backpress<1){
-            Toast.makeText(getApplicationContext(), " Press Back again to return to Main Menu ", Toast.LENGTH_SHORT).show();
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            goBack = false;
         }
-        backpress++;
-        if (backpress>1) {
+    };
+
+    public void onBackPressed(){
+        if (!goBack) {
+            goBack = true;
+            Toast.makeText(getApplicationContext(), " Press Back again to return to Main Menu ",
+                    Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
             ActivityCollector.goToMainActivity();
         }
     }
