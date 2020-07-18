@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,21 +110,21 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                 websiteUrl = inputUrl.getText().toString();
                 if (websiteUrl.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter a url", Toast.LENGTH_LONG).show();
+                } else if (!URLUtil.isValidUrl(websiteUrl)) {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid url", Toast.LENGTH_LONG).show();
                 } else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // clearImgs();
-
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
                                 String htmlString = readHtmlFromUrl(websiteUrl);
                                 ArrayList<String> imgUrls = getImgUrls(htmlString);
                                 if(htmlString.isEmpty()){
-                                   runOnUiThread(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
-                                       }
-                                   });
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                                 }
                                 else if (imgUrls.size()<20){
                                     runOnUiThread(new Runnable() {
@@ -139,9 +140,9 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                                 }
                             }
                         }).start();
+                    }
                 }
-            }
-        });
+            });
         inputUrl = findViewById(R.id.inputUrl);
         resetGridView();
     }
@@ -245,7 +246,7 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
             return stringBuffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 
