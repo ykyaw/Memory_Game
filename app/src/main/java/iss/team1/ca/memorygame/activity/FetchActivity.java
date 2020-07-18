@@ -86,10 +86,12 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                //Hide Keyboard
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
+                //Hide Android Keyboard
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 TextView progressTextView = findViewById(R.id.progressTxt);
                 progressTextView.setVisibility(View.VISIBLE);
@@ -176,7 +178,6 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         };
 
         gridView.setAdapter(gridViewAdapter);
-        gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -189,6 +190,7 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                     }
                 });
                 imgList.get(position).toggleSelected();
+                gridViewAdapter.notifyDataSetChanged();
                 int selectedCount = getSelectedCount();
                 if (selectedCount < 6) {
                     playBtn.setVisibility(View.GONE);
@@ -234,10 +236,10 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                 stringBuffer.append(scanner.nextLine());
             }
             conn.disconnect();
+            return stringBuffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            return stringBuffer.toString();
+            return null;
         }
     }
 
