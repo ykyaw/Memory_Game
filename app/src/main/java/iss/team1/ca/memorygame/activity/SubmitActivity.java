@@ -127,6 +127,11 @@ public class SubmitActivity extends BaseActivity implements ServiceConnection {
     }
 
     @Override
+    public void onBackPressed() {
+        ActivityCollector.goToMainActivity();
+    }
+
+    @Override
     public void onServiceDisconnected(ComponentName componentName) {
 
     }

@@ -22,10 +22,12 @@ public class CreditActivity extends BaseActivity implements ServiceConnection {
     private Animation animation;
 
     MusicPlayerService musicPlayerService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide(); //hide the title bar
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit);
 
@@ -33,9 +35,8 @@ public class CreditActivity extends BaseActivity implements ServiceConnection {
         Intent musicIntent = new Intent(this, MusicPlayerService.class);
         bindService(musicIntent, this, BIND_AUTO_CREATE);
 
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.credianim);
-
         linearLayout = (LinearLayout) findViewById(R.id.llayout);
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.credianim);
         linearLayout.startAnimation(animation);
 
     }

@@ -220,7 +220,6 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
         int score = parseStrTimeToIntScore(time);
         intent.putExtra("score", score);
         startActivity(intent);
-        finish();
     }
 
     @Override

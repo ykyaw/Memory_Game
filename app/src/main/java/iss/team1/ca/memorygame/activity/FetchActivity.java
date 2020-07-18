@@ -58,7 +58,9 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
 
     EditText inputUrl;
     Button fetchBtn;
-    ProgressBar progressBar;
+    Button playBtn;
+    TextView progressTextView;
+    ProgressBar mProgressBar;
     private String websiteUrl = "";
 
     private GridView gridView;
@@ -73,6 +75,7 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide(); //hide the title bar
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch);
 
@@ -85,6 +88,11 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
 
     private void init(){
         fetchBtn = (Button) findViewById(R.id.fetchBtn);
+        progressTextView = (TextView) findViewById(R.id.progressTxt);
+        playBtn = (Button) findViewById(R.id.playBtn);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        gridView = (GridView) findViewById(R.id.grid_img);
+
         fetchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -95,17 +103,16 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                TextView progressTextView = findViewById(R.id.progressTxt);
                 progressTextView.setVisibility(View.VISIBLE);
                 progressTextView.setText("Downloading...");
-                Button playBtn = findViewById(R.id.playBtn);
+
                 playBtn.setVisibility(View.GONE);
-                ProgressBar mProgressBar = findViewById(R.id.progressBar);
-                //System.out.println(mProgressBar.getProgress());
+
                 if (mProgressBar.getProgress()!=0 && mProgressBar.getProgress()!=100){
                     stop();
                     resetGridView();
                 }
+
                 websiteUrl = inputUrl.getText().toString();
                 if (websiteUrl.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter a url", Toast.LENGTH_LONG).show();
@@ -113,30 +120,27 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            // clearImgs();
+                            String htmlString = readHtmlFromUrl(websiteUrl);
+                            ArrayList<String> imgUrls = getImgUrls(htmlString);
 
-                                String htmlString = readHtmlFromUrl(websiteUrl);
-                                ArrayList<String> imgUrls = getImgUrls(htmlString);
-                                if(htmlString.isEmpty()){
-                                   runOnUiThread(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
-                                       }
-                                   });
-                                }
-                                else if (imgUrls.size()<20){
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(), "Not enough images to load from this URL", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                                else {
-                                    stopThread=false;
-                                    downloadImgs(imgUrls);
-                                }
+                            if(htmlString.isEmpty()){
+                               runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       Toast.makeText(getApplicationContext(), "No valid images from this URL", Toast.LENGTH_LONG).show();
+                                   }
+                               });
+                            } else if (imgUrls.size()<20){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "Not enough images to load from this URL", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                stopThread=false;
+                                downloadImgs(imgUrls);
+                            }
                             }
                         }).start();
                 }
@@ -147,7 +151,6 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
     }
 
     private void resetGridView() {
-        gridView = (GridView) findViewById(R.id.grid_img);
 
         imgList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
@@ -158,11 +161,11 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
             @Override
             public void bindView(ViewHolder holder, Img img) {
                 holder.setImageBitmap(R.id.img,img.getRes());
-
             }
         };
 
         gridView.setAdapter(gridViewAdapter);
+
         if (imgList.get(0).getRes() != null) {
             setGridViewOnClick();
         } else {
@@ -172,17 +175,17 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
 
     void setGridViewOnClick() {
         gridView.setEnabled(true);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView progressTextView = findViewById(R.id.progressTxt);
-                Button playBtn = findViewById(R.id.playBtn);
                 playBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         startPlayingActivity();
                     }
                 });
+                
                 imgList.get(position).toggleSelected();
                 Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
                 if (imgList.get(position).isSelected()) {

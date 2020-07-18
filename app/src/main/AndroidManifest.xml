@@ -13,7 +13,6 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".activity.HighScoreActivity" />
-
         <activity android:name=".activity.SubmitActivity" />
         <activity android:name=".activity.PlayingActivity" />
         <activity android:name=".activity.CreditActivity" />
@@ -31,10 +30,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <service
-            android:name=".service.TestService"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
