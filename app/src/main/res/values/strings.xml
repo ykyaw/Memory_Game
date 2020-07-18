@@ -15,5 +15,11 @@
     <string name="score_title_score">score</string>
     <string name="paly_result_title">"Congratulation! "</string>
     <string name="score_sentence">Your score is  </string>
-    <string name="play_again">play again</string>
+
+    <!--Fetch Layout Strings-->
+    <string name="sampleUrl">https://stocksnap.io/search/london</string>
+    <string name="inputUrlHint">Please enter a URL</string>
+    <string name="fetchBtn">FETCH</string>
+    <string name="progressTxtStart">Fetch a URL to begin download</string>
+    <string name="playBtn">PLAY!</string>
 </resources>
