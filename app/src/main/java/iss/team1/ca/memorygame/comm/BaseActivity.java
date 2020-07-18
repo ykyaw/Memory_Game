@@ -25,5 +25,5 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
-    
+
 }
