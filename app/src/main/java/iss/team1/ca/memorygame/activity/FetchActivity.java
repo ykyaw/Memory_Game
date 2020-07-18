@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -54,8 +55,6 @@ import iss.team1.ca.memorygame.service.MusicPlayerService;
 
 public class FetchActivity extends AppCompatActivity implements ServiceConnection {
 
-    private static final String SAMPLE_IMG_URL="https://image.shutterstock.com/image-photo/mountains-during-sunset-beautiful-natural-260nw-407021107.jpg";
-
     EditText inputUrl;
     Button fetchBtn;
     ProgressBar progressBar;
@@ -67,7 +66,6 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
     private MyAdapter gridViewAdapter=null;
     private List<Img> imgList=null;
     private boolean stopThread=false;
-    private ArrayList<Integer> selectedImgUid = new ArrayList<Integer>();
 
 
     @Override
@@ -145,23 +143,6 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         });
         inputUrl = findViewById(R.id.inputUrl);
         resetGridView();
-//        gridView = (GridView) findViewById(R.id.grid_img);
-//
-//        imgList = new ArrayList<>();
-//        for (int i = 0; i < 20; i++) {
-//            imgList.add(new Img(R.drawable.ic_launcher_background));
-//        }
-//
-//        gridViewAdapter=new MyAdapter<Img>((ArrayList)imgList,R.layout.item_grid_img){
-//            @Override
-//            public void bindView(ViewHolder holder, Img img) {
-//                holder.setImageResource(R.id.img,img.getUid());
-//
-//            }
-//        };
-//
-//        gridView.setAdapter(gridViewAdapter);
-
     }
 
     private void resetGridView() {
@@ -175,12 +156,21 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
         gridViewAdapter=new MyAdapter<Img>((ArrayList)imgList,R.layout.item_grid_img){
             @Override
             public void bindView(ViewHolder holder, Img img) {
-                holder.setImageResource(R.id.img,img.getUid());
+                holder.setImageBitmap(R.id.img,img.getRes());
 
             }
         };
 
         gridView.setAdapter(gridViewAdapter);
+        if (imgList.get(0).getRes() != null) {
+            setGridViewOnClick();
+        } else {
+            gridView.setEnabled(false);
+        }
+    }
+
+    void setGridViewOnClick() {
+        gridView.setEnabled(true);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -196,9 +186,11 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                 Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
                 if (imgList.get(position).isSelected()) {
                     view.startAnimation(flip);
+                    view.setAlpha(0.4f);
                     view.setBackgroundColor(Color.CYAN);
                 } else {
                     view.startAnimation(flip);
+                    view.setAlpha(1);
                     view.setBackgroundColor(Color.TRANSPARENT);
                 }
                 gridViewAdapter.notifyDataSetChanged();
@@ -323,6 +315,12 @@ public class FetchActivity extends AppCompatActivity implements ServiceConnectio
                 e.printStackTrace();
             }
         }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setGridViewOnClick();
+            }
+        });
     }
 
     @Override
