@@ -100,12 +100,6 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
                 images.get(3).getRes(),
                 images.get(4).getRes(),
                 images.get(5).getRes(),
-/*                BitmapFactory.decodeResource(getResources(),R.drawable.z1),
-                BitmapFactory.decodeResource(getResources(),R.drawable.z2),
-                BitmapFactory.decodeResource(getResources(),R.drawable.z3),
-                BitmapFactory.decodeResource(getResources(),R.drawable.z4),
-                BitmapFactory.decodeResource(getResources(),R.drawable.z5),
-                BitmapFactory.decodeResource(getResources(),R.drawable.z6),*/
         };
         GridView gridView = (GridView)findViewById(R.id.gridViewPlay);
         PlayAdapter playAdapter = new PlayAdapter(this);
@@ -126,13 +120,11 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
                 else{
                     secondcardopen = true;
                     if(currentPos == position){
-                        currentPos=-1;
                         ((ImageView)view).setImageResource(R.drawable.turtlecard);
                         ((ImageView)view).startAnimation(flip);
                         secondcardopen = false;
                     }
                     else if (pos[currentPos] != pos[position]){
-                        currentPos=-1;
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         ((ImageView)view).startAnimation(flip);
                         new Handler().postDelayed(new Runnable() {
@@ -148,12 +140,19 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
                         triggernoMatchToast();
                     }
                     else{
-                        currentPos=-1;
                         secondcardopen = false;
                         currentView.setOnClickListener(null);
                         ((ImageView)view).setOnClickListener(null);
                         ((ImageView)view).setImageBitmap(drawable[pos[position]]);
                         ((ImageView)view).startAnimation(flip);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Animation blink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+                                ((ImageView)view).startAnimation(blink);
+                                currentView.startAnimation(blink);
+                            }
+                        }, 500);
                         matches++;
                         updateMatchCount(matches);
                         triggermatchtoast();
@@ -169,17 +168,13 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
                             }, 4000);
                         }
                     }
+                    currentPos=-1;
                 }
             }
         });
     }
     private void retrieveImages(){
         images = new ArrayList<Img>();
-        //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
-        //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
-        //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
-        //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
-        //REMEMBER TO CODE TO FLUSH SEEDED FILES AND REPLACE WITH FETCHACTIVITY FILES
         for(int i=0; i<6; i++){
             String filename = "bitmap" + i;
             File file = new File(getApplicationContext().getFilesDir(), filename);
@@ -304,9 +299,7 @@ public class PlayingActivity extends BaseActivity implements ServiceConnection {
             finish();
         }
     }
-
-
-
+    
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
     }

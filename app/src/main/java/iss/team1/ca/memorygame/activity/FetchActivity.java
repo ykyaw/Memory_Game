@@ -187,8 +187,8 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                 Animation flip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flip);
                 if (imgList.get(position).isSelected()) {
                     view.startAnimation(flip);
-                    view.setAlpha(0.4f);
-                    view.setBackgroundColor(Color.CYAN);
+                    view.setAlpha(0.9f);
+                    view.setBackgroundColor(Color.parseColor("#16BFC4"));
                 } else {
                     view.startAnimation(flip);
                     view.setAlpha(1);
@@ -200,10 +200,12 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                     playBtn.setVisibility(View.GONE);
                     progressTextView.setVisibility(View.VISIBLE);
                     progressTextView.setText(selectedCount + "/6 images selected");
+                    progressTextView.setTextColor(Color.BLACK);
                 } else if (selectedCount > 6) {
                     playBtn.setVisibility(View.GONE);
                     progressTextView.setVisibility(View.VISIBLE);
-                    progressTextView.setText("Too many images selected!");
+                    progressTextView.setText(selectedCount + "/6 images selected");
+                    progressTextView.setTextColor(Color.RED);
                 } else {
                     playBtn.setVisibility(View.VISIBLE);
                     progressTextView.setVisibility(View.GONE);
@@ -300,6 +302,7 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                             TextView progressTextView = findViewById(R.id.progressTxt);
                             int percentCompleted = indexImgDL * 5;
                             progressTextView.setText("Downloading " + indexImgDL +" of 20 images");
+                            progressTextView.setTextColor(Color.BLACK);
                             ProgressBar mProgressBar = findViewById(R.id.progressBar);
                             if (percentCompleted == 100) {
                                 mProgressBar.setVisibility(View.GONE);
