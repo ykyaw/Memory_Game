@@ -105,8 +105,7 @@ public class FetchActivity extends BaseActivity implements ServiceConnection {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
-                progressTextView.setVisibility(View.VISIBLE);
-                progressTextView.setText("Downloading...");
+
 
                 playBtn.setVisibility(View.GONE);
 
